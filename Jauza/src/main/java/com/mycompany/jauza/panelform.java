@@ -96,6 +96,15 @@ public class panelform extends javax.swing.JPanel {
                 
                 if (rs.next()) {
                     JOptionPane.showMessageDialog(this, "Login Berhasil!");
+                    
+                    // --- KODE PINDAH HALAMAN ---
+                    // 1. Menutup form login saat ini
+                    javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
+                    
+                    // 2. Membuka form menu utama
+                    new MenuUtama().setVisible(true);
+                    // ---------------------------
+                    
                 } else {
                     JOptionPane.showMessageDialog(this, "Username atau Password salah!");
                 }
@@ -104,7 +113,7 @@ public class panelform extends javax.swing.JPanel {
                 pst.close();
                 conn.close();
             } else {
-                JOptionPane.showMessageDialog(this, "Koneksi ke database gagal!");
+                JOptionPane.showMessageDialog(this, "Koneksi ke database Laragon terputus!");
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, "Terjadi Error: " + e.getMessage());
