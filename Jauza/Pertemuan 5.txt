@@ -1,0 +1,31 @@
+Pertemuan 5
+
+1. Penyelesaian Modul Antarmuka (GUI)
+
+Modul Kelola Pelanggan (FormPelanggan): Membuat halaman manajemen data pelanggan lengkap dengan fitur CRUD dan interaksi tabel klik-ke-form.
+
+Modul Kelola Layanan (FormLayanan): Membuat "buku menu" tarif laundry, dilengkapi validasi input angka untuk mencegah error dan proteksi penghapusan data jika layanan sedang terpakai di transaksi.
+
+Modul Input Orderan (FormTransaksi): Membuat pusat operasional kasir dengan dropdown cerdas yang otomatis menarik nama pelanggan dan layanan, serta fitur kalkulasi total tagihan otomatis berdasarkan berat cucian.
+
+2. Migrasi Arsitektur ke Spring Framework (Pola DAO)
+
+Injeksi Dependensi: Memperbarui pom.xml dengan pustaka spring-context dan spring-orm.
+
+Otomatisasi Database (AppConfig): Menghapus file koneksi.java manual yang rawan error, lalu menggantinya dengan konfigurasi cerdas Spring menggunakan DataSource dan JdbcTemplate.
+
+Penerapan Pola Desain MVC & DAO: Membangun struktur Model (wadah data), Interface DAO (aturan), dan DAO Implementasi (mesin eksekusi SQL) secara mandiri untuk 4 entitas utama: Admin, Pelanggan, Layanan, dan Transaksi.
+
+3. Refactoring (Pembersihan Kode Terpusat)
+
+Membersihkan ratusan baris kode JDBC manual (Connection, PreparedStatement, ResultSet, try-catch) dari seluruh file antarmuka (Pelanggan, Layanan, Transaksi, dan Login).
+
+Menyuntikkan (Dependency Injection) DAO langsung ke dalam form melalui konstruktor.
+
+Memperbarui kelas starter Jauza.java untuk menyalakan mesin ApplicationContext dari Spring secara otomatis setiap kali tombol Run ditekan.
+
+4. Peningkatan Fitur Dasbor (Beranda)
+
+Menyulap halaman Beranda di MenuUtama yang sebelumnya hanya berisi teks sambutan kosong menjadi sebuah Dasbor Pemantauan Dinamis.
+
+Menambahkan tabel khusus yang otomatis memfilter dan hanya menampilkan daftar orderan cucian yang sedang On Air (status "Antrean" dan "Diproses"), lengkap dengan tombol penyegaran data.

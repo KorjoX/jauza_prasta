@@ -1,20 +1,26 @@
 package com.mycompany.jauza;
 
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 public class panelform extends javax.swing.JPanel {
 
-    public panelform() {
+    // Login Form sekarang memegang semua DAO untuk dioper ke Menu Utama
+    private AdminDAO adminDAO;
+    private PelangganDAO pelangganDAO;
+    private LayananDAO layananDAO;
+    private TransaksiDAO transaksiDAO;
+
+    public panelform(AdminDAO adminDAO, PelangganDAO pelangganDAO, LayananDAO layananDAO, TransaksiDAO transaksiDAO) {
+        this.adminDAO = adminDAO;
+        this.pelangganDAO = pelangganDAO;
+        this.layananDAO = layananDAO;
+        this.transaksiDAO = transaksiDAO;
         initComponents();
     }
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
-
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jTextField1 = new javax.swing.JTextField();
@@ -84,48 +90,25 @@ public class panelform extends javax.swing.JPanel {
         String password = jTextField2.getText(); 
 
         try {
-            Connection conn = koneksi.getConnection();
-            
-            if (conn != null) {
-                String sql = "SELECT * FROM admin WHERE username=? AND password=?";
-                PreparedStatement pst = conn.prepareStatement(sql);
-                pst.setString(1, username);
-                pst.setString(2, password);
+            // Validasi Login sangat elegan dengan Spring DAO
+            if (adminDAO.login(username, password)) {
+                JOptionPane.showMessageDialog(this, "Login Berhasil!");
+                javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
                 
-                ResultSet rs = pst.executeQuery();
-                
-                if (rs.next()) {
-                    JOptionPane.showMessageDialog(this, "Login Berhasil!");
-                    
-                    // --- KODE PINDAH HALAMAN ---
-                    // 1. Menutup form login saat ini
-                    javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
-                    
-                    // 2. Membuka form menu utama
-                    new MenuUtama().setVisible(true);
-                    // ---------------------------
-                    
-                } else {
-                    JOptionPane.showMessageDialog(this, "Username atau Password salah!");
-                }
-                
-                rs.close();
-                pst.close();
-                conn.close();
+                // Buka menu utama dan oper seluruh DAO
+                new MenuUtama(pelangganDAO, layananDAO, transaksiDAO, adminDAO).setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Koneksi ke database Laragon terputus!");
+                JOptionPane.showMessageDialog(this, "Username atau Password salah!");
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Terjadi Error: " + e.getMessage());
+            JOptionPane.showMessageDialog(this, "Terjadi Error Database: " + e.getMessage());
         }
     }                                        
-
-    // Variables declaration - do not modify                     
+                 
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;
-    // End of variables declaration                   
+    private javax.swing.JTextField jTextField2;                 
 }
