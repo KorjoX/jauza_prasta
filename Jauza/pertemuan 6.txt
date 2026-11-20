@@ -1,0 +1,20 @@
+pertemuan 6
+
+1.Integrasi Dependensi JasperReports (pom.xml)
+Menambahkan pustaka net.sf.jasperreports versi 6.21.3 tepat di dalam blok <dependencies> pada konfigurasi Maven. Pembaruan ini memungkinkan NetBeans mengunduh mesin pemroses laporan dan pustaka pendukung PDF secara otomatis saat proses Clean and Build.
+
+2. Perancangan Templat Laporan (LaporanTransaksi.jrxml & .jasper)
+Merancang tata letak laporan berukuran A4 menggunakan Jaspersoft Studio yang menarik data gabungan dari tiga tabel (transaksi, pelanggan, dan layanan). Desain ini dilengkapi banner judul biru, tanggal cetak dinamis, tabel dengan efek baris belang (zebra striping), nomor halaman, perhitungan total pendapatan otomatis pada bagian Summary, serta blok tanda tangan admin, yang kemudian dikompilasi menjadi berkas .jasper di dalam direktori src/main/resources/reports/.
+
+3. Pembuatan Kelas Koneksi Khusus Laporan (KoneksiReport.java)
+Membuat kelas terpisah di dalam package com.mycompany.jauza yang bertugas menyediakan objek java.sql.Connection murni menuju basis data db_jauza. Koneksi khusus ini dibutuhkan oleh mesin JasperReports agar dapat menjalankan kueri SQL yang tertanam di dalam berkas .jasper.
+
+4. Pembuatan Modul Pengelola Laporan & Ekspor PDF (ReportManager.java)
+Membangun kelas utilitas yang menangani dua fungsi utama pelaporan:
+
+tampilkanLaporan(): Memuat berkas /reports/LaporanTransaksi.jasper, mengisinya dengan data transaksi terkini melalui JasperFillManager, dan menampilkannya di layar menggunakan JasperViewer dengan parameter false agar aplikasi utama tetap berjalan saat jendela pratinjau ditutup.
+
+eksporKePDF(): Membuka jendela pemilihan direktori (JFileChooser) dan mengonversi hasil laporan langsung menjadi berkas .pdf siap simpan melalui JasperExportManager.
+
+5. Penambahan Tombol Aksi pada Dasbor (MenuUtama.java)
+Menambahkan tombol Cetak Laporan dan Ekspor PDF pada panel bawah halaman Beranda (pnlBawahDashboard), lalu menghubungkan masing-masing ActionListener-nya ke ReportManager sehingga admin dapat mencetak maupun mengunduh rekapitulasi pendapatan langsung dari layar utama aplikasi.

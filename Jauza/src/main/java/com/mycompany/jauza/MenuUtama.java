@@ -75,10 +75,18 @@ public class MenuUtama extends JFrame {
         JButton btnRefresh = new JButton("Segarkan Data");
         btnRefresh.addActionListener(e -> loadDataDashboard());
         
+        // Tombol Cetak Laporan & Ekspor PDF
+        JButton btnCetakLaporan = new JButton("Cetak Laporan");
+        btnCetakLaporan.addActionListener(e -> ReportManager.tampilkanLaporan());
+
+        JButton btnExportPDF = new JButton("Ekspor PDF");
+        btnExportPDF.addActionListener(e -> ReportManager.eksporKePDF(MenuUtama.this));
+
         JPanel pnlBawahDashboard = new JPanel(new FlowLayout(FlowLayout.RIGHT));
+        pnlBawahDashboard.add(btnCetakLaporan);
+        pnlBawahDashboard.add(btnExportPDF);
         pnlBawahDashboard.add(btnRefresh);
         pnlDashboard.add(pnlBawahDashboard, BorderLayout.SOUTH);
-
         // Muat data beranda untuk pertama kali
         loadDataDashboard();
 

@@ -11,7 +11,6 @@
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <exec.mainClass>com.mycompany.jauza.Jauza</exec.mainClass>
-        <!-- Menambahkan properti versi Spring agar seragam -->
         <spring.version>6.1.14</spring.version>
     </properties>
     
@@ -30,18 +29,25 @@
             <version>6.6.15.Final</version>
         </dependency>
         
-        <!-- Spring Context (Inti Framework) -->
+        <!-- Spring Context -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>${spring.version}</version>
         </dependency>
         
-        <!-- Spring ORM & JDBC (Untuk DAO dan Database) -->
+        <!-- Spring ORM & JDBC -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-orm</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+
+        <!-- JasperReports (Sudah berada di dalam tag dependencies) -->
+        <dependency>
+            <groupId>net.sf.jasperreports</groupId>
+            <artifactId>jasperreports</artifactId>
+            <version>6.21.3</version>
         </dependency>
     </dependencies>
 </project>
