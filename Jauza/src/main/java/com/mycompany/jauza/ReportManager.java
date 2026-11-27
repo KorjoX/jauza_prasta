@@ -10,17 +10,17 @@ import java.util.HashMap;
 
 public class ReportManager {
 
-    // Memanggil file hasil kompilasi dari Jaspersoft Studio
     private static final String REPORT_PATH = "/reports/LaporanTransaksi.jasper";
+    private static final String NOTA_PATH = "/reports/NotaTransaksi.jasper";
 
     public static void tampilkanLaporan() {
         try (Connection conn = KoneksiReport.getConnection()) {
             InputStream reportStream = ReportManager.class.getResourceAsStream(REPORT_PATH);
-            
+
             if (reportStream == null) {
-                JOptionPane.showMessageDialog(null, 
-                    "File laporan tidak ditemukan di: " + REPORT_PATH, 
-                    "Error File", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,
+                        "File laporan tidak ditemukan di: " + REPORT_PATH,
+                        "Error File", JOptionPane.ERROR_MESSAGE);
                 return;
             }
 
@@ -29,6 +29,29 @@ public class ReportManager {
 
         } catch (Exception e) {
             JOptionPane.showMessageDialog(null, "Error Laporan: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
+            e.printStackTrace();
+        }
+    }
+
+    public static void cetakNota(int idTransaksi) {
+        try (Connection conn = KoneksiReport.getConnection()) {
+            InputStream reportStream = ReportManager.class.getResourceAsStream(NOTA_PATH);
+
+            if (reportStream == null) {
+                JOptionPane.showMessageDialog(null,
+                        "File nota tidak ditemukan di: " + NOTA_PATH,
+                        "Error File", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            HashMap<String, Object> params = new HashMap<>();
+            params.put("P_ID_TRANSAKSI", idTransaksi);
+
+            JasperPrint jasperPrint = JasperFillManager.fillReport(reportStream, params, conn);
+            JasperViewer.viewReport(jasperPrint, false);
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error Cetak Nota: " + e.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
             e.printStackTrace();
         }
     }

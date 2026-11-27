@@ -1,114 +1,194 @@
 package com.mycompany.jauza;
 
-import javax.swing.JOptionPane;
+import java.awt.*;
+import javax.swing.*;
+import javax.swing.border.EmptyBorder;
 
 public class panelform extends javax.swing.JPanel {
 
-    // Login Form sekarang memegang semua DAO untuk dioper ke Menu Utama
-    private AdminDAO adminDAO;
-    private PelangganDAO pelangganDAO;
-    private LayananDAO layananDAO;
-    private TransaksiDAO transaksiDAO;
+    // Tetap memegang seluruh DAO untuk dioper ke Menu Utama
+    private final AdminDAO adminDAO;
+    private final PelangganDAO pelangganDAO;
+    private final LayananDAO layananDAO;
+    private final TransaksiDAO transaksiDAO;
+
+    private JTextField txtUsername;
+    private JPasswordField txtPassword;
+    private JButton btnLogin;
 
     public panelform(AdminDAO adminDAO, PelangganDAO pelangganDAO, LayananDAO layananDAO, TransaksiDAO transaksiDAO) {
         this.adminDAO = adminDAO;
         this.pelangganDAO = pelangganDAO;
         this.layananDAO = layananDAO;
         this.transaksiDAO = transaksiDAO;
-        initComponents();
+        initModernUI();
     }
 
-    @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
-    private void initComponents() {
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
-        jTextField1 = new javax.swing.JTextField();
-        jTextField2 = new javax.swing.JTextField();
-        jButton1 = new javax.swing.JButton();
-        jLabel3 = new javax.swing.JLabel();
+    private void initModernUI() {
+        setPreferredSize(new Dimension(720, 430));
+        setLayout(new GridLayout(1, 2)); // Split-screen 50% kiri, 50% kanan
 
-        jLabel1.setText("username :");
-        jLabel2.setText("password  ;");
-
-        jButton1.setText("Kirim");
-        jButton1.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton1ActionPerformed(evt);
+        // ==========================================
+        // 1. PANEL KIRI (BRANDING GRADASI BIRU)
+        // ==========================================
+        JPanel leftPanel = new JPanel() {
+            @Override
+            protected void paintComponent(Graphics g) {
+                super.paintComponent(g);
+                Graphics2D g2d = (Graphics2D) g;
+                g2d.setRenderingHint(RenderingHints.KEY_RENDERING, RenderingHints.VALUE_RENDER_QUALITY);
+                GradientPaint gp = new GradientPaint(
+                    0, 0, new Color(0, 102, 204),
+                    0, getHeight(), new Color(30, 58, 95)
+                );
+                g2d.setPaint(gp);
+                g2d.fillRect(0, 0, getWidth(), getHeight());
             }
-        });
+        };
+        leftPanel.setLayout(new GridBagLayout());
+        leftPanel.setBorder(new EmptyBorder(40, 35, 40, 35));
 
-        jLabel3.setText("Admin Login");
+        JPanel brandBox = new JPanel();
+        brandBox.setOpaque(false);
+        brandBox.setLayout(new BoxLayout(brandBox, BoxLayout.Y_AXIS));
 
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
-        this.setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(55, 55, 55)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel1)
-                                .addGap(18, 18, 18)
-                                .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(6, 6, 6)
-                                .addComponent(jLabel2)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(jTextField2))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(160, 160, 160)
-                        .addComponent(jButton1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(174, 174, 174)
-                        .addComponent(jLabel3)))
-                .addContainerGap(128, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap()
-                .addComponent(jLabel3)
-                .addGap(37, 37, 37)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jLabel1)
-                    .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jLabel2))
-                .addGap(66, 66, 66)
-                .addComponent(jButton1)
-                .addContainerGap(90, Short.MAX_VALUE))
-        );
-    }// </editor-fold>                        
+        JLabel lblBadge = new JLabel("  SISTEM MANAJEMEN  ");
+        lblBadge.setOpaque(true);
+        lblBadge.setBackground(new Color(255, 255, 255, 40));
+        lblBadge.setForeground(Color.WHITE);
+        lblBadge.setFont(new Font("Segoe UI", Font.BOLD, 10));
+        lblBadge.setBorder(new EmptyBorder(5, 8, 5, 8));
+        lblBadge.setAlignmentX(Component.LEFT_ALIGNMENT);
 
-    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {                                         
-        String username = jTextField1.getText();
-        String password = jTextField2.getText(); 
+        JLabel lblAppTitle = new JLabel("JAUZA LAUNDRY");
+        lblAppTitle.setForeground(Color.WHITE);
+        lblAppTitle.setFont(new Font("Segoe UI", Font.BOLD, 28));
+        lblAppTitle.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel lblDesc = new JLabel("<html><div style='width:240px; color:#DCEBFF; line-height:1.4;'>"
+                + "Kelola data pelanggan, layanan, transaksi cucian, dan cetak laporan keuangan dengan cepat dan terintegrasi."
+                + "</div></html>");
+        lblDesc.setFont(new Font("Segoe UI", Font.PLAIN, 13));
+        lblDesc.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        brandBox.add(lblBadge);
+        brandBox.add(Box.createVerticalStrut(14));
+        brandBox.add(lblAppTitle);
+        brandBox.add(Box.createVerticalStrut(10));
+        brandBox.add(lblDesc);
+        leftPanel.add(brandBox);
+
+        // ==========================================
+        // 2. PANEL KANAN (FORM LOGIN PUTIH BERSIH)
+        // ==========================================
+        JPanel rightPanel = new JPanel(new GridBagLayout());
+        rightPanel.setBackground(Color.WHITE);
+        rightPanel.setBorder(new EmptyBorder(40, 42, 40, 42));
+
+        JPanel formBox = new JPanel();
+        formBox.setOpaque(false);
+        formBox.setLayout(new BoxLayout(formBox, BoxLayout.Y_AXIS));
+        formBox.setPreferredSize(new Dimension(275, 310));
+
+        JLabel lblWelcome = new JLabel("Selamat Datang");
+        lblWelcome.setFont(new Font("Segoe UI", Font.BOLD, 24));
+        lblWelcome.setForeground(new Color(30, 58, 95));
+        lblWelcome.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        JLabel lblSub = new JLabel("Silakan masuk menggunakan akun admin");
+        lblSub.setFont(new Font("Segoe UI", Font.PLAIN, 12));
+        lblSub.setForeground(new Color(110, 120, 135));
+        lblSub.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        // Input Username
+        JLabel lblUser = new JLabel("Username");
+        lblUser.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblUser.setForeground(new Color(60, 70, 85));
+        lblUser.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        txtUsername = new JTextField();
+        txtUsername.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        txtUsername.setPreferredSize(new Dimension(275, 38));
+        txtUsername.setAlignmentX(Component.LEFT_ALIGNMENT);
+        txtUsername.putClientProperty("JTextField.placeholderText", "Masukkan username");
+        txtUsername.putClientProperty("FlatLaf.style", "arc: 10; margin: 0,10,0,10");
+
+        // Input Password (dengan tombol mata show/hide bawaan FlatLaf)
+        JLabel lblPass = new JLabel("Password");
+        lblPass.setFont(new Font("Segoe UI", Font.BOLD, 12));
+        lblPass.setForeground(new Color(60, 70, 85));
+        lblPass.setAlignmentX(Component.LEFT_ALIGNMENT);
+
+        txtPassword = new JPasswordField();
+        txtPassword.setMaximumSize(new Dimension(Integer.MAX_VALUE, 38));
+        txtPassword.setPreferredSize(new Dimension(275, 38));
+        txtPassword.setAlignmentX(Component.LEFT_ALIGNMENT);
+        txtPassword.putClientProperty("JTextField.placeholderText", "Masukkan password");
+        txtPassword.putClientProperty("FlatLaf.style", "arc: 10; margin: 0,10,0,10; showRevealButton: true");
+
+        // Tombol Login
+        btnLogin = new JButton("Masuk ke Dashboard");
+        btnLogin.setMaximumSize(new Dimension(Integer.MAX_VALUE, 40));
+        btnLogin.setPreferredSize(new Dimension(275, 40));
+        btnLogin.setAlignmentX(Component.LEFT_ALIGNMENT);
+        btnLogin.setCursor(new Cursor(Cursor.HAND_CURSOR));
+        btnLogin.putClientProperty("FlatLaf.style",
+                "arc: 10; borderWidth: 0; focusWidth: 0; "
+                + "background: #0066CC; hoverBackground: #0052A3; pressedBackground: #003D7A; "
+                + "foreground: #FFFFFF; font: bold +1");
+
+        // Aksi tombol & tekan Enter
+        btnLogin.addActionListener(e -> prosesLogin());
+        txtUsername.addActionListener(e -> txtPassword.requestFocusInWindow());
+        txtPassword.addActionListener(e -> prosesLogin());
+
+        // Susun elemen form secara vertikal
+        formBox.add(lblWelcome);
+        formBox.add(Box.createVerticalStrut(4));
+        formBox.add(lblSub);
+        formBox.add(Box.createVerticalStrut(26));
+        formBox.add(lblUser);
+        formBox.add(Box.createVerticalStrut(6));
+        formBox.add(txtUsername);
+        formBox.add(Box.createVerticalStrut(16));
+        formBox.add(lblPass);
+        formBox.add(Box.createVerticalStrut(6));
+        formBox.add(txtPassword);
+        formBox.add(Box.createVerticalStrut(28));
+        formBox.add(btnLogin);
+
+        rightPanel.add(formBox);
+
+        add(leftPanel);
+        add(rightPanel);
+    }
+
+    private void prosesLogin() {
+        String username = txtUsername.getText().trim();
+        String password = new String(txtPassword.getPassword());
+
+        if (username.isEmpty() || password.isEmpty()) {
+            JOptionPane.showMessageDialog(this,
+                    "Username dan Password tidak boleh kosong!",
+                    "Peringatan", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
 
         try {
-            // Validasi Login sangat elegan dengan Spring DAO
             if (adminDAO.login(username, password)) {
-                JOptionPane.showMessageDialog(this, "Login Berhasil!");
                 javax.swing.SwingUtilities.getWindowAncestor(this).dispose();
-                
-                // Buka menu utama dan oper seluruh DAO
                 new MenuUtama(pelangganDAO, layananDAO, transaksiDAO, adminDAO).setVisible(true);
             } else {
-                JOptionPane.showMessageDialog(this, "Username atau Password salah!");
+                JOptionPane.showMessageDialog(this,
+                        "Username atau Password salah!",
+                        "Login Gagal", JOptionPane.ERROR_MESSAGE);
+                txtPassword.setText("");
+                txtPassword.requestFocusInWindow();
             }
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, "Terjadi Error Database: " + e.getMessage());
+            JOptionPane.showMessageDialog(this,
+                    "Terjadi Error Database: " + e.getMessage(),
+                    "Error", JOptionPane.ERROR_MESSAGE);
         }
-    }                                        
-                 
-    private javax.swing.JButton jButton1;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JTextField jTextField1;
-    private javax.swing.JTextField jTextField2;                 
+    }
 }

@@ -43,11 +43,18 @@
             <version>${spring.version}</version>
         </dependency>
 
-        <!-- JasperReports (Sudah berada di dalam tag dependencies) -->
+        <!-- JasperReports -->
         <dependency>
             <groupId>net.sf.jasperreports</groupId>
             <artifactId>jasperreports</artifactId>
             <version>6.21.3</version>
+        </dependency>
+
+        <!-- FlatLaf untuk UI Modern -->
+        <dependency>
+            <groupId>com.formdev</groupId>
+            <artifactId>flatlaf</artifactId>
+            <version>3.5.2</version>
         </dependency>
     </dependencies>
 </project>
